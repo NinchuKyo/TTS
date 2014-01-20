@@ -8,6 +8,7 @@ public class TestStatusCode extends TestCase
 	public TestStatusCode(String arg0)
 	{
 		super(arg0);
+		System.out.println("\nStarting test StatusCode");
 	}
 	
 	public void testEnumToStringArray()

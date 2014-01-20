@@ -1,1 +1,7 @@
-Insert actual database within folder here.
+A persistent database was implemented for this iteration (iteration 2).
+
+To view the contents of the database, RunHSQLDB.bat can be used in cmd.
+
+To restore the contents of the database to its original settings, RestoreDB.bat can be used in cmd.
+
+To save the contents of the current database to be the original settings, BackupDB.bat can be used in cmd.

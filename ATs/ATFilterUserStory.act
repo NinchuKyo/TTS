@@ -1,0 +1,211 @@
+Package 					tts.presentation
+
+InvokeMethod				tts.application.Main			startUpStubDB
+
+Click						LogInWindow						btnLogIn
+
+Test						TaskMainViewWindow				txtTitleFilter			""
+TestComboValue				TaskMainViewWindow				cboxAssignedToFilter	"Do not filter"
+TestComboValue				TaskMainViewWindow				cboxStatusFilter		"Do not filter"
+TestComboValue				TaskMainViewWindow				cboxPriorityFilter		"Do not filter"
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				0
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Complete iteration 1 for COMP 3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"IN_PROGRESS"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"HIGH"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				1
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Complete the database design for iteration 1"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"IN_PROGRESS"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"MEDIUM"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				2
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Rescue the president"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"JamesBond"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"ON_HOLD"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"LOW"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				3
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Write the unit tests using JUnit"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"COMPLETED"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"UNDETERMINED"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+Set							TaskMainViewWindow				txtTitleFilter			"the"
+Click						TaskMainViewWindow				btnApplyFilter
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				0
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Complete the database design for iteration 1"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"IN_PROGRESS"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"MEDIUM"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				1
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Rescue the president"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"JamesBond"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"ON_HOLD"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"LOW"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				2
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Write the unit tests using JUnit"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"COMPLETED"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"UNDETERMINED"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+Set							TaskMainViewWindow				txtTitleFilter			""
+SelectComboByValue			TaskMainViewWindow				cboxAssignedToFilter	"StudentInCOMP3350"
+Click						TaskMainViewWindow				btnApplyFilter
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				0
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Complete iteration 1 for COMP 3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"IN_PROGRESS"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"HIGH"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				1
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Complete the database design for iteration 1"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"IN_PROGRESS"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"MEDIUM"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				2
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Write the unit tests using JUnit"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"COMPLETED"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"UNDETERMINED"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+Set							TaskMainViewWindow				txtTitleFilter			"the"
+SelectComboByValue			TaskMainViewWindow				cboxAssignedToFilter	"StudentInCOMP3350"
+Click						TaskMainViewWindow				btnApplyFilter
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				0
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Complete the database design for iteration 1"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"IN_PROGRESS"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"MEDIUM"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				1
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Write the unit tests using JUnit"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"COMPLETED"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"UNDETERMINED"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+Click						TaskMainViewWindow				btnCreateTask
+Set							CreateTaskWindow				txtTitle				"Task containing 'the'"
+Click						CreateTaskWindow				btnSave
+Click						TaskMainViewWindow				btnCreateTask
+Set							CreateTaskWindow				txtTitle				"Task not containing it"
+Click						CreateTaskWindow				btnSave
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				0
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Complete the database design for iteration 1"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"IN_PROGRESS"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"MEDIUM"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				1
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Write the unit tests using JUnit"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"COMPLETED"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"UNDETERMINED"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				2
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Task containing 'the'"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"CREATED"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"UNDETERMINED"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+Set							TaskMainViewWindow				txtTitleFilter			"Complete"
+Click						TaskMainViewWindow				btnCreateTask
+Click						CreateTaskWindow				btnCancel
+Click						TaskMainViewWindow				btnCreateTask
+Set							CreateTaskWindow				txtTitle				"Complete this task"
+Click						CreateTaskWindow				btnSave
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				0
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Complete the database design for iteration 1"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"IN_PROGRESS"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"MEDIUM"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				1
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Write the unit tests using JUnit"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"COMPLETED"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"UNDETERMINED"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				2
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Task containing 'the'"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"CREATED"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"UNDETERMINED"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+Click						TaskMainViewWindow				btnResetFilter
+
+Test						TaskMainViewWindow				txtTitleFilter			""
+TestComboValue				TaskMainViewWindow				cboxAssignedToFilter	"Do not filter"
+TestComboValue				TaskMainViewWindow				cboxStatusFilter		"Do not filter"
+TestComboValue				TaskMainViewWindow				cboxPriorityFilter		"Do not filter"
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				0
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Complete iteration 1 for COMP 3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"IN_PROGRESS"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"HIGH"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				1
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Complete the database design for iteration 1"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"IN_PROGRESS"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"MEDIUM"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				2
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Rescue the president"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"JamesBond"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"ON_HOLD"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"LOW"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				3
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Write the unit tests using JUnit"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"COMPLETED"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"UNDETERMINED"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					""
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				4
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Task containing 'the'"
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				5
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Task not containing it"
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				6
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Complete this task"
+
+Click						TaskMainViewWindow				btnSignOut
+
+Click						LogInWindow						btnQuit
+
+InvokeMethod				tts.application.Main			shutDown

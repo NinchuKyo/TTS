@@ -4,5 +4,5 @@ call SetClasspath
 
 REM @echo on
 
-REM java junit.textui.TestRunner tests.AllTests
-java junit.swingui.TestRunner tests.AllTests
+REM java junit.textui.TestRunner tests.RunUnitTests
+java junit.swingui.TestRunner tests.RunUnitTests

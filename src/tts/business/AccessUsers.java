@@ -4,17 +4,17 @@ import java.util.List;
 
 import tts.application.*;
 import tts.objects.User;
-import tts.persistence.DataAccessStub;
+import tts.persistence.DataAccess;
 
 public class AccessUsers
 {
-	private DataAccessStub dataAccess;
+	private DataAccess dataAccess;
 	private List<User> users;
 	private static User loggedInUser = null;
 	
 	public AccessUsers()
 	{
-		dataAccess = (DataAccessStub) Services.getDataAccess(Main.dbName);
+		dataAccess = (DataAccess) Services.getDataAccess();
 		users = null;
 	}
 	
@@ -28,24 +28,60 @@ public class AccessUsers
 		return users;
 	}
 	
+	public boolean addUser(User toAdd)
+	{
+		boolean inserted = false;
+		
+		if (toAdd != null)
+		{
+			if (exists(toAdd) == false)
+			{
+				users.add(toAdd);
+				inserted = dataAccess.insertUser(toAdd);
+			}
+		}
+		else
+		{
+			throw new IllegalArgumentException("Cannot add null!");
+		}
+		
+		return inserted;
+	}
+	
 	public static User getLoggedInUser()
 	{
 		return loggedInUser;
 	}
 	
-	public void setLoggedInUser(User user)
-	{
-		loggedInUser = user;
-	}
-	
 	public void setLoggedInUser(String userName)
 	{
-		for (User u : users)
+		if(userName != null && userName.isEmpty() == false)
 		{
-			if (u.getUserName().equals(userName))
+			for (User u : users)
 			{
-				loggedInUser = u;
+				if (u.getUserName().equals(userName))
+				{
+					loggedInUser = u;
+					break;
+				}
 			}
 		}
+		else
+		{
+			throw new IllegalArgumentException("Cannot set logged in user to null!");
+		}
+	}
+	
+	public boolean exists(User toFind)
+	{
+		boolean exists = false;
+		
+		for (User u : users)
+		{
+			if (u.equals(toFind))
+				exists = true;
+		}
+		
+		return exists;
 	}
 }

@@ -16,6 +16,9 @@ import org.eclipse.swt.graphics.Font;
 import tts.objects.User;
 import tts.business.AccessUsers;
 
+import acceptanceTests.Register;
+import acceptanceTests.EventLoop;
+
 public class LogInWindow
 {
 	
@@ -30,12 +33,15 @@ public class LogInWindow
 	
 	private Shell shell;
 	private Display display;
+	private Button btnCreateUser;
 	
 	public LogInWindow()
 	{
 		users = new AccessUsers();
 		display = Display.getDefault();
+		Register.newWindow(this);
 		createContents();
+		StaticWindowMethods.centerShell(shell, display);
 		open();
 	}
 	
@@ -98,23 +104,44 @@ public class LogInWindow
 		icon.setSize(140, 111);
 		icon.setImage(new Image(null, "images/task.png"));
 		
+		btnCreateUser = new Button(shell, SWT.NONE);
+		btnCreateUser.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				shell.setEnabled(false);
+				new CreateUserWindow(users);
+				shell.setEnabled(true);
+				initUserDropDown();
+				shell.forceFocus();
+				shell.setActive();
+			}
+		});
+		btnCreateUser.setBounds(349, 115, 75, 25);
+		btnCreateUser.setText("Create User");
+		
 	}
 	
 	public void open()
 	{
 		shell.open();
 		shell.layout();
-		while (!shell.isDisposed())
+		
+		if(EventLoop.isEnabled())
 		{
-			if (!display.readAndDispatch())
+			while (!shell.isDisposed())
 			{
-				display.sleep();
+				if (!display.readAndDispatch())
+				{
+					display.sleep();
+				}
 			}
+			display.dispose();
 		}
 	}
 	
 	protected void initUserDropDown()
 	{
+		cboxUserDropDown.removeAll();
 		theUsers = users.getUsers();
 		
 		if (theUsers != null && theUsers.size() != 0)

@@ -2,7 +2,7 @@ package tests.business;
 
 import java.util.List;
 
-import tts.application.Main;
+import tests.persistence.DataAccessStub;
 import tts.application.Services;
 import tts.business.AccessUsers;
 import tts.objects.User;
@@ -12,41 +12,136 @@ public class TestAccessUsers extends TestCase
 {
 	private AccessUsers userAccess;
 	private List<User> users;
-	private User user1, user2;
+	private User newUser1, newUser2, newUser3, newUser4, newUser5;
+	private int count;
+	private boolean inserted;
 	
 	public TestAccessUsers(String arg0)
 	{
 		super(arg0);
+		
+		Services.closeDataAccess();
+		System.out.println("\nStarting test AccessUsers");
+		Services.createDataAccess(new DataAccessStub());
+		
+		newUser1 = new User("Bob");
+		newUser2 = new User("Bill");
+		newUser3 = new User("John");
+		newUser4 = new User("Jane");
+		newUser5 = new User("Dave");
+		
+		userAccess = new AccessUsers();
 	}
 	
 	public void setUp()
 	{
-		Services.createDataAccess(Main.dbName);
 	}
 	
-	public void testAccessUsers()
+	public void testNull()
 	{
-		System.out.println("\nStarting testAccessUsers");
+		System.out.println("\nStarting testNull: user functions");
 		
-		userAccess = new AccessUsers();
+		assertNotNull(userAccess);
+		
+		try
+		{
+			userAccess.addUser(null);
+			fail("Illegal Argument Exception expected!");
+		}
+		catch (IllegalArgumentException iae)
+		{
+		}
+		
+		try
+		{
+			userAccess.setLoggedInUser(null);
+			fail("Illegal Argument Exception expected!");
+		}
+		catch (IllegalArgumentException iae)
+		{
+		}
+		
+		System.out.println("Finished testNull");
+	}
+	
+	public void testInitialSetup()
+	{
+		System.out.println("\nStarting testInitialSetup");
+		
 		assertNotNull(userAccess);
 		
 		users = userAccess.getUsers();
 		assertNotNull(users);
 		
-		user1 = users.get(0);
-		user2 = users.get(1);
+		User user1 = users.get(0);
+		User user2 = users.get(1);
 		
 		assertEquals(user1.getUserName(), "StudentInCOMP3350");
 		assertEquals(user2.getUserName(), "JamesBond");
 		
-		userAccess.setLoggedInUser(user1);
-		assertTrue(AccessUsers.getLoggedInUser().getUserName()
-				.equals(user1.getUserName()));
-		userAccess.setLoggedInUser(user2);
-		assertTrue(AccessUsers.getLoggedInUser().getUserName()
-				.equals(user2.getUserName()));
+		System.out.println("Finished testInitialSetup");
+	}
+	
+	public void testOneUser()
+	{
+		System.out.println("\nStarting testOneUser");
 		
-		System.out.println("Finished testAccessUsers");
+		users = userAccess.getUsers();
+		count = users.size();
+		
+		assertFalse(userAccess.exists(newUser1));
+		inserted = userAccess.addUser(newUser1);
+		assertTrue(inserted);
+		assertTrue(userAccess.exists(newUser1));
+		
+		users = userAccess.getUsers();
+		
+		assertEquals(users.size(), count + 1);
+		assertEquals("Bob", users.get(users.size() - 1).getUserName());
+		
+		userAccess.setLoggedInUser(newUser1.getUserName());
+		assertEquals(AccessUsers.getLoggedInUser().getUserName(), "Bob");
+		
+		System.out.println("Finished testOneUser");
+	}
+	
+	public void testMultipleUsers()
+	{
+		System.out.println("\nStarting testMultipleUsers");
+		
+		users = userAccess.getUsers();
+		count = users.size();
+		
+		assertFalse(userAccess.exists(newUser2));
+		inserted = userAccess.addUser(newUser2);
+		assertTrue(inserted);
+		assertTrue(userAccess.exists(newUser2));
+		
+		assertFalse(userAccess.exists(newUser3));
+		inserted = userAccess.addUser(newUser3);
+		assertTrue(inserted);
+		assertTrue(userAccess.exists(newUser3));
+		
+		assertFalse(userAccess.exists(newUser4));
+		inserted = userAccess.addUser(newUser4);
+		assertTrue(inserted);
+		assertTrue(userAccess.exists(newUser4));
+		
+		assertFalse(userAccess.exists(newUser5));
+		inserted = userAccess.addUser(newUser5);
+		assertTrue(inserted);
+		assertTrue(userAccess.exists(newUser5));
+		
+		users = userAccess.getUsers();
+		
+		assertEquals(users.size(), count + 4);
+		assertEquals("Dave", users.get(users.size() - 1).getUserName());
+		
+		userAccess.setLoggedInUser(newUser5.getUserName());
+		assertEquals(AccessUsers.getLoggedInUser().getUserName(), "Dave");
+		userAccess.setLoggedInUser(newUser4.getUserName());
+		assertEquals(AccessUsers.getLoggedInUser().getUserName(), "Jane");
+		
+		System.out.println("Finished testMultipleUsers");
 	}
 }

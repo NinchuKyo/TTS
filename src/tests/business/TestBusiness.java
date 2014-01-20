@@ -12,6 +12,9 @@ public class TestBusiness
 		suite = new TestSuite("Business tests");
 		suite.addTestSuite(TestAccessUsers.class);
 		suite.addTestSuite(TestAccessTasks.class);
+		suite.addTestSuite(TestFormatDate.class);
+		suite.addTestSuite(TestValidate.class);
+		suite.addTestSuite(TestComparators.class);
 		return suite;
 	}
 }

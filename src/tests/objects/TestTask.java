@@ -1,6 +1,6 @@
 package tests.objects;
 
-import java.util.Date;
+import java.util.Calendar;
 import junit.framework.TestCase;
 import tts.objects.*;
 
@@ -10,22 +10,19 @@ public class TestTask extends TestCase
 	private User john;
 	private User jane;
 	private String title;
-	private String illegalTitle;
 	private String longTitle;
 	private String tooLongTitle;
 	private String shortTitle;
 	private String comment;
 	private String description;
 	private String longText;
-	private Date now;
+	private String tooLongDescription;
+	private Calendar date;
 	
 	public TestTask(String arg0)
 	{
 		super(arg0);
-	}
-	
-	public void setUp()
-	{
+		
 		john = new User("John");
 		jane = new User("Jane");
 		shortTitle = "a";
@@ -34,10 +31,27 @@ public class TestTask extends TestCase
 		tooLongTitle = "This Title is longer than 64 chars aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 		description = "This is a description.";
 		comment = "This is a comment.";
-		longText = "qwertyuiopasdfghjklzxcvbnmmmmmmm1234567890-=[];'\\/.,`~!@#$%^&*()_+}{:\"|?><QWQWERTYUIOPASDFGHJKLLLLLZXCVBNM`1234567890-=QWERTYUIOP[]ASDFGHJKL;'\\ZXCVBNM,./1234567890-=qwertyuiop[]asdfghjkl;'\\zxcvbnm,./<>"
-				+ "\n\n\t\tqwertyuiopasdfghjklzxcvbnmmmmmmm1234567890-=[];\'\\/.,`~!@#$%^&*()_+}{:\"|?><QWQWERTYUIOPASDFGHJKLLLLLZXCVBNM`1234567890-=QWERTYUIOP[]ASDFGHJKL;\'\\ZXCVBNM,./1234567890-=qwertyuiop[]asdfghjkl;\'\\zxcvbnm,./<>	"
-				+ "ASDFGBHNJMKL.;,lkomjinuhgvtfcdrx";
-		now = new Date();
+		longText = "qwertyuiopasdfghjklzxcvbnmmmmmmm1234567890-=[];'\\/.,`~!@#$%^&*()_+"
+				+ "|?><QWQWERTYUIOPASDFGHJKLLLLLZXCVBNM`1234567890-=QWERTYUIOP[]ASDFGHJ"
+				+ "KL;'\\ZXCVBNM,./1234567890-=qwertyuiop[]asdfghjkl;'\\zxcvbnm,./<>\n\n\t\tqwertyuio"
+				+ "pasdfghjklzxcvbnmmmmmmm1234567890-=[];\'\\/.,`~!@#$%^&*()_+}{:\"|?><QWQ"
+				+ "WERTYUIOPASDFGHJKLLLLLZXCVBNM`1234567890-=QWERTYUIOP[]ASDFGHJKL;\'\\ZXC"
+				+ "VBNM,./1234567890-=qwertyuiop[]asdfghjkl;\'\\zxcvbnm,./<>ASDFGBHNJMKL.;,lkomjin"
+				+ "uhgvtfcdrx";
+		tooLongDescription = "qwertyuiopasdfghjklzxcvbnm.qwertyuiopasdfghjklzxcvbnm.qwertyuiop"
+				+ "asdfghjklzxcvbnm.qwertyuiopasdfghjklzxcvbnm.qwertyuiopasdfghjklzxcvbnm.qwertyuio"
+				+ "pasdfghjklzxcvbnm.qwertyuiopasdfghjklzxcvbnm.qwertyuiopasdfghjklzxcvbnm.qwertyui"
+				+ "opasdfghjklzxcvbnm.qwertyuiopasdfghjklzxcvbnm.qwertyuiopasdfghjklzxcvbnm.qwerty"
+				+ "uiopasdfghjklzxcvbnm.qwertyuiopasdfghjklzxcvbnm.qwertyuiopasdfghjklzxcvbnm.qwert"
+				+ "yuiopasdfghjklzxcvbnm.qwertyuiopasdfghjklzxcvbnm.qwertyuiopasdfghjklzxcvbnm.qwe"
+				+ "rtyuiopasdfghjklzxcvbnm.qwertyuiopasdfghjklzxcvbnm.";
+		date = Calendar.getInstance();
+		
+		System.out.println("\nStarting test Task");
+	}
+	
+	public void setUp()
+	{
 	}
 	
 	public void testNull()
@@ -150,39 +164,6 @@ public class TestTask extends TestCase
 	{
 		System.out.println("\nStarting testIllegalInput: tasks");
 		
-		illegalTitle = "IllegalTitle$*%";
-		
-		try
-		{
-			new Task(illegalTitle, john, jane);
-			fail("Illegal Argument Exception expected!");
-		}
-		catch (IllegalArgumentException iae)
-		{
-		}
-		
-		illegalTitle = ",.;:'\" IllegalTitle";
-		
-		try
-		{
-			new Task(illegalTitle, john, jane);
-			fail("Illegal Argument Exception expected!");
-		}
-		catch (IllegalArgumentException iae)
-		{
-		}
-		
-		illegalTitle = "Illegal=+[}Title";
-		
-		try
-		{
-			new Task(illegalTitle, john, jane);
-			fail("Illegal Argument Exception expected!");
-		}
-		catch (IllegalArgumentException iae)
-		{
-		}
-		
 		newTask = new Task(title, john, jane);
 		
 		try
@@ -213,6 +194,16 @@ public class TestTask extends TestCase
 		try
 		{
 			new Task(tooLongTitle, john, jane);
+			fail("Illegal Argument Exception expected!");
+		}
+		catch (IllegalArgumentException iae)
+		{
+		}
+		
+		try
+		{
+			newTask = new Task(title, john, jane);
+			newTask.setDescription(tooLongDescription);
 			fail("Illegal Argument Exception expected!");
 		}
 		catch (IllegalArgumentException iae)
@@ -258,10 +249,10 @@ public class TestTask extends TestCase
 		assertEquals(newTask.getPriority(), PriorityCode.HIGH);
 		newTask.setStatus(StatusCode.COMPLETED);
 		assertEquals(newTask.getStatus(), StatusCode.COMPLETED);
-		newTask.setDueDate(now);
-		assertEquals(newTask.getDueDate(), now);
-		newTask.setUpdatedDate(now);
-		assertEquals(newTask.getUpdatedDate(), now);
+		newTask.setDueDate(date);
+		assertEquals(newTask.getDueDate(), date);
+		newTask.setUpdatedDate(date);
+		assertEquals(newTask.getUpdatedDate(), date);
 		
 		System.out.println("Finished testOneTask: tasks");
 	}
@@ -271,7 +262,6 @@ public class TestTask extends TestCase
 		System.out.println("\nStarting testBorderCases: tasks");
 		
 		newTask = new Task(shortTitle, john, jane);
-		now = new Date();
 		
 		newTask.setTitle(longTitle);
 		assertEquals(newTask.getTitle(), longTitle);
@@ -289,10 +279,6 @@ public class TestTask extends TestCase
 		assertEquals(newTask.getPriority(), PriorityCode.MEDIUM);
 		newTask.setStatus(StatusCode.CANCELLED);
 		assertEquals(newTask.getStatus(), StatusCode.CANCELLED);
-		newTask.setDueDate(now);
-		assertEquals(newTask.getDueDate(), now);
-		newTask.setUpdatedDate(now);
-		assertEquals(newTask.getUpdatedDate(), now);
 		
 		System.out.println("Finished testBorderCases: tasks");
 	}

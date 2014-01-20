@@ -1,1 +1,2 @@
-Insert image files used for the GUI (business layer) here.
+Image files that are used for this iteration (Iteration 1) are
+	-task.PNG

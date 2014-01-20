@@ -1,6 +1,6 @@
 package tts.objects;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class Task
 {
@@ -15,9 +15,9 @@ public class Task
 	private double timeSpent;
 	private PriorityCode priority;
 	private StatusCode status;
-	private Date createdDate;
-	private Date dueDate;
-	private Date updatedDate;
+	private Calendar createdDate;
+	private Calendar dueDate;
+	private Calendar updatedDate;
 	public final static int MAX_TITLE_LENGTH = 64;
 	public final static int MAX_TEXT_LENGTH = 512;
 	
@@ -32,7 +32,7 @@ public class Task
 		setTimeSpent(0.0);
 		setPriority(PriorityCode.UNDETERMINED);
 		setStatus(StatusCode.CREATED);
-		setCreatedDate(new Date());
+		setCreatedDate(Calendar.getInstance());
 		setDueDate(null);
 		setUpdatedDate(null);
 		setTaskID(nextTaskID);
@@ -46,11 +46,11 @@ public class Task
 	
 	public void setTitle(String title)
 	{
-		if (title == null || title.length() == 0 || hasIllegalCharacters(title)
+		if (title == null || title.length() == 0
 				|| title.length() > MAX_TITLE_LENGTH)
 		{
 			throw new IllegalArgumentException(
-					"Title cannot be empty, or null, or have illegal characters, or exceed max length!");
+					"Title cannot be empty, or null, or exceed max length!");
 		}
 		this.title = title;
 	}
@@ -60,13 +60,28 @@ public class Task
 		return taskID;
 	}
 	
-	private void setTaskID(int taskID)
+	public static int getNextTaskID()
+	{
+		return nextTaskID;
+	}
+	
+	public void setTaskID(int taskID)
 	{
 		if (taskID < 1)
 		{
 			throw new IllegalArgumentException("Task ID cannot be less than 1!");
 		}
 		this.taskID = taskID;
+	}
+	
+	public static void setNextTaskID(int staticTaskID)
+	{
+		if (staticTaskID < 1)
+		{
+			throw new IllegalArgumentException(
+					"Next Task ID cannot be less than 1!");
+		}
+		nextTaskID = staticTaskID;
 	}
 	
 	public User getCreator()
@@ -163,6 +178,11 @@ public class Task
 		return priority;
 	}
 	
+	public String getPriorityString()
+	{
+		return priority.toString();
+	}
+	
 	public void setPriority(PriorityCode priority)
 	{
 		if (priority == null)
@@ -177,6 +197,11 @@ public class Task
 		return status;
 	}
 	
+	public String getStatusString()
+	{
+		return status.toString();
+	}
+	
 	public void setStatus(StatusCode status)
 	{
 		if (status == null)
@@ -186,12 +211,12 @@ public class Task
 		this.status = status;
 	}
 	
-	public Date getCreatedDate()
+	public Calendar getCreatedDate()
 	{
 		return createdDate;
 	}
 	
-	private void setCreatedDate(Date createdDate)
+	public void setCreatedDate(Calendar createdDate)
 	{
 		if (createdDate == null)
 		{
@@ -200,39 +225,23 @@ public class Task
 		this.createdDate = createdDate;
 	}
 	
-	public Date getDueDate()
+	public Calendar getDueDate()
 	{
 		return dueDate;
 	}
 	
-	public void setDueDate(Date dueDate)
+	public void setDueDate(Calendar dueDate)
 	{
 		this.dueDate = dueDate;
 	}
 	
-	public Date getUpdatedDate()
+	public Calendar getUpdatedDate()
 	{
 		return updatedDate;
 	}
 	
-	public void setUpdatedDate(Date updatedDate)
+	public void setUpdatedDate(Calendar updatedDate)
 	{
 		this.updatedDate = updatedDate;
-	}
-	
-	private boolean hasIllegalCharacters(String toCheck)
-	{
-		boolean hasIllegalChars = false;
-		final String legalCharacters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890 ";
-		
-		for (int i = 0; i < toCheck.length(); i++)
-		{
-			if (legalCharacters.indexOf(toCheck.charAt(i)) < 0)
-			{
-				hasIllegalChars = true;
-			}
-		}
-		
-		return hasIllegalChars;
 	}
 }

@@ -1,22 +1,35 @@
 package tts.application;
 
-import tts.persistence.DataAccessStub;
+import java.util.ArrayList;
+
+import tts.persistence.DataAccess;
+import tts.persistence.DataAccessObject;
 
 public class Services
 {
-	private static DataAccessStub dataAccessService = null;
+	private static DataAccess dataAccessService = null;
 	
-	public static DataAccessStub createDataAccess(String dbName)
+	public static DataAccess createDataAccess(DataAccess otherDataAccessService)
 	{
 		if (dataAccessService == null)
 		{
-			dataAccessService = new DataAccessStub(dbName);
-			dataAccessService.open(Main.dbName);
+			dataAccessService = otherDataAccessService;
+			dataAccessService.open();
 		}
 		return dataAccessService;
 	}
 	
-	public static DataAccessStub getDataAccess(String dbName)
+	public static DataAccess createDataAccess()
+	{
+		if (dataAccessService == null)
+		{
+			dataAccessService = new DataAccessObject(Main.dbNameReal);
+			dataAccessService.open();
+		}
+		return dataAccessService;
+	}
+	
+	public static DataAccess getDataAccess()
 	{
 		if (dataAccessService == null)
 		{
@@ -25,6 +38,22 @@ public class Services
 			System.exit(1);
 		}
 		return dataAccessService;
+	}
+	
+	public static ArrayList<String> processQuery(String source, ArrayList<String> keys)
+	{
+		ArrayList<String> result = new ArrayList<String>();
+		String answer;
+		
+		dataAccessService.select(source);
+		for (String key : keys)
+		{
+			answer = dataAccessService.lookup(key);
+			if (answer != null)
+				result.add(answer);
+		}
+		
+		return result;
 	}
 	
 	public static void closeDataAccess()

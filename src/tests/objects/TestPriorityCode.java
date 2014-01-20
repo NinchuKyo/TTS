@@ -8,6 +8,7 @@ public class TestPriorityCode extends TestCase
 	public TestPriorityCode(String arg0)
 	{
 		super(arg0);
+		System.out.println("\nStarting test PriorityCode");
 	}
 	
 	public void testEnumToStringArray()

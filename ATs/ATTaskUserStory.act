@@ -1,0 +1,98 @@
+Package 				tts.presentation
+
+InvokeMethod			tts.application.Main			startUpStubDB
+
+Click					LogInWindow						btnLogIn
+
+Test					TaskMainViewWindow				lblLoggedInUser				"Logged In User: StudentInCOMP3350"
+
+Click					TaskMainViewWindow				btnCreateTask
+Test					CreateTaskWindow				lblCreatedByField			"StudentInCOMP3350"
+
+Test					CreateTaskWindow				txtComments					""
+Test					CreateTaskWindow				txtDescription				""
+TestComboValue			CreateTaskWindow				cboxStatus					"CREATED"
+TestComboValue			CreateTaskWindow				cboxPriority				"UNDETERMINED"
+Test					CreateTaskWindow				txtTimeSpent				"0"
+
+SelectComboByValue		CreateTaskWindow				cboxPriority				"HIGH"
+TestComboValue			CreateTaskWindow				cboxPriority				"HIGH"
+
+SelectComboByValue		CreateTaskWindow				cboxAssignedTo				"JamesBond"
+TestComboValue			CreateTaskWindow				cboxAssignedTo				"JamesBond"
+
+Set						CreateTaskWindow				txtDescription				"testing ATR"
+Test					CreateTaskWindow				txtDescription				"testing ATR"
+
+Set						CreateTaskWindow				txtComments					"this should pass"
+Test					CreateTaskWindow				txtComments					"this should pass"
+
+Click					CreateTaskWindow				btnSave
+Test					MyMessageBox					messageText					"Please enter a Title for the task."
+
+Set						CreateTaskWindow				txtTitle					"atr test";
+Click					CreateTaskWindow				btnSave
+Test					MyMessageBox					messageText					"Task has been saved"
+
+Click					TaskMainViewWindow					btnResetFilter
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				4
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"atr test"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"JamesBond"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"CREATED"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"HIGH"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				6					"testing ATR"
+
+
+SelectTableByRowIndex	TaskMainViewWindow				tblTasks					0
+Click					TaskMainViewWindow				btnEditTask
+
+Test					EditTaskWindow					txtTitle					"Complete iteration 1 for COMP 3350"
+
+Set						EditTaskWindow					txtTitle					""
+Click					EditTaskWindow				btnSave
+Test					MyMessageBox					messageText					"Please enter a Title for the task."
+
+Set						EditTaskWindow					txtTitle					"Complete iteration 1 for COMP 3350 --- already done"
+Test					EditTaskWindow					txtTitle					"Complete iteration 1 for COMP 3350 --- already done"
+
+SelectComboByValue		EditTaskWindow					cboxPriority				"LOW"
+TestComboValue			EditTaskWindow					cboxPriority				"LOW"
+
+SelectComboByValue		EditTaskWindow					cboxStatus					"COMPLETED"
+TestComboValue			EditTaskWindow					cboxStatus					"COMPLETED"
+
+TestComboValue			EditTaskWindow					cboxAssignedTo				"StudentInCOMP3350"
+
+Click					EditTaskWindow				btnSave
+Test					MyMessageBox					messageText					"Task has been updated."
+
+Click					TaskMainViewWindow					btnResetFilter
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				0
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Complete iteration 1 for COMP 3350 --- already done"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"COMPLETED"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"LOW"
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				0
+Click						TaskMainViewWindow				btnDeleteTask
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				0
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Complete the database design for iteration 1"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"IN_PROGRESS"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"MEDIUM"
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				1
+Click						TaskMainViewWindow				btnDeleteTask
+
+SelectTableByRowIndex		TaskMainViewWindow				tblTasks				0
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				1					"Complete the database design for iteration 1"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				2					"StudentInCOMP3350"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				3					"IN_PROGRESS"
+TestTableByColumnIndex		TaskMainViewWindow				tblTasks				5					"MEDIUM"
+
+Click				TaskMainViewWindow				btnSignOut
+Click				LogInWindow						btnQuit
+InvokeMethod		tts.application.Main			shutDown

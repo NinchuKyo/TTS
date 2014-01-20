@@ -1,1 +1,12 @@
-/database.txt/1.1/Tue May 28 18:52:30 2013//
+/BackupDB.bat/1.4/Tue Jul  9 15:03:01 2013/-kb/
+/BackupSC.properties/1.1/Mon Jul  8 22:38:38 2013//
+/BackupSC.script/1.1/Mon Jul  8 22:38:38 2013/-kb/
+/OriginalSC.properties/1.2/Tue Jun 25 18:30:08 2013//
+/OriginalSC.script/1.3/Thu Jul  4 19:10:52 2013/-kb/
+/RestoreBackup.bat/1.1/Mon Jul  8 22:38:38 2013/-kb/
+/RestoreDB.bat/1.3/Thu Jul  4 19:10:52 2013/-kb/
+/RunHSQLDB.bat/1.1/Sun Jun 23 21:31:31 2013/-kb/
+/SC.properties/1.4/Result of merge//
+/SC.script/1.3/Tue Jun 25 01:48:23 2013/-kb/
+/database.txt/1.3/Tue Jun 25 15:20:37 2013//
+/sqltool.rc/1.2/Tue Jun 25 15:20:37 2013/-kb/

@@ -1,186 +1,180 @@
 package tests.persistence;
 
 import junit.framework.TestCase;
-import java.util.ArrayList;
 import java.util.List;
 
-import tts.persistence.DataAccessStub;
+import tts.application.Services;
+import tts.persistence.DataAccess;
 import tts.objects.User;
 import tts.objects.Task;
 
 public class TestDataAccessStub extends TestCase
 {
-	DataAccessStub testDatabase;
-	List<User> testListUsers;
-	List<Task> testListTasks;
+	private static DataAccess testDatabase;
+	private static List<User> databaseUsers;
+	private static List<Task> databaseTasks;
+	private static User newUser;
+	private static Task newTask1, newTask2, newTask3;
 	
 	public TestDataAccessStub(String arg0)
 	{
 		super(arg0);
+		
+		System.out.println("\nStarting Persistence test DataAccess");
 	}
 	
-	private void setUpData()
+	public void testStub()
 	{
-		testDatabase = new DataAccessStub("Test Database");
-		testListUsers = new ArrayList<User>();
-		testListTasks = new ArrayList<Task>();
+		Services.closeDataAccess();
+		testDatabase = (DataAccess) Services
+				.createDataAccess(new DataAccessStub());
+		runAllTests();
 	}
 	
-	public void testDatabaseInit()
+	public static void allTests()
+	{
+		testDatabase = Services.getDataAccess();
+		runAllTests();
+	}
+	
+	private static void runAllTests()
+	{
+		databaseInitTest();
+		duplicateInsertTest();
+		usersTest();
+		tasksTest();
+	}
+	
+	public static void databaseInitTest()
 	{
 		System.out.println("\nStarting testDatabaseInit");
 		
-		assertTrue(testDatabase == null);
-		testDatabase = new DataAccessStub("Test Database");
-		testDatabase.open("Test Database");
-		assertTrue(testDatabase != null);
+		assertNotNull(testDatabase);
+		testDatabase.open();
+		
+		assertNotNull(testDatabase.getTasksSequential());
+		assertNotNull(testDatabase.getUsersSequential());
 		
 		System.out.println("Finished testDatabaseInit");
 	}
 	
-	public void testDuplicateUserInsert()
+	public static void duplicateInsertTest()
 	{
-		System.out.println("\nStarting testDuplicateUserInsert");
+		System.out.println("\nStarting testDuplicateInsert");
+		boolean inserted;
+		int size;
 		
-		setUpData();
+		databaseUsers = testDatabase.getUsersSequential();
+		size = databaseUsers.size();
 		
-		User newUser = new User("SameUser");
-		testDatabase.insertUser(newUser);
-		testDatabase.insertUser(newUser);
-		testDatabase.insertUser(newUser);
-		
-		assertTrue(testDatabase.getUsersSequential().size() != 3);
-		assertTrue(testDatabase.getUsersSequential().get(0).equals(newUser));
-		
-		System.out.println("Finished testDuplicateUserInsert");
-	}
-	
-	public void testUserInsert()
-	{
-		System.out.println("\nStarting testUserInsert");
-		
-		setUpData();
-		
-		User newUser;
-		List<User> databaseUsers;
-		
-		newUser = new User("TestUserA");
-		testListUsers.add(newUser);
-		
-		newUser = new User("TestUserB");
-		testListUsers.add(newUser);
-		
-		newUser = new User("TestUserC");
-		testListUsers.add(newUser);
-		
-		for (User u : testListUsers)
-		{
-			testDatabase.insertUser(u);
-		}
+		newUser = new User("SameUser");
+		inserted = testDatabase.insertUser(newUser);
+		assertTrue(inserted);
+		inserted = testDatabase.insertUser(newUser);
+		assertFalse(inserted);
+		inserted = testDatabase.insertUser(newUser);
+		assertFalse(inserted);
 		
 		databaseUsers = testDatabase.getUsersSequential();
 		
-		assertTrue(databaseUsers.get(0).getUserName().equals("TestUserA"));
-		assertTrue(databaseUsers.get(1).getUserName().equals("TestUserB"));
-		assertTrue(databaseUsers.get(2).getUserName().equals("TestUserC"));
+		assertTrue(size + 1 == databaseUsers.size());
+		assertEquals(testDatabase.getUsersSequential().get(size).getUserName(),
+				"SameUser");
 		
-		assertTrue(databaseUsers.get(0).equals(testListUsers.get(0)));
-		assertTrue(databaseUsers.get(1).equals(testListUsers.get(1)));
-		assertTrue(databaseUsers.get(2).equals(testListUsers.get(2)));
+		databaseTasks = testDatabase.getTasksSequential();
+		size = databaseTasks.size();
 		
-		assertTrue(databaseUsers.equals(testListUsers));
+		newTask1 = new Task("same task", newUser, newUser);
+		
+		inserted = testDatabase.insertTask(newTask1);
+		assertTrue(inserted);
+		inserted = testDatabase.insertTask(newTask1);
+		assertFalse(inserted);
+		inserted = testDatabase.insertTask(newTask1);
+		assertFalse(inserted);
+		
+		databaseTasks = testDatabase.getTasksSequential();
+		
+		assertTrue(databaseTasks.size() == size + 1);
+		assertEquals(databaseTasks.get(size).getTitle(), "same task");
+		
+		System.out.println("Finished testDuplicateInsert");
+	}
+	
+	public static void usersTest()
+	{
+		System.out.println("\nStarting testUserInsert");
+		
+		newUser = new User("TestUserA");
+		testDatabase.insertUser(newUser);
+		newUser = new User("TestUserB");
+		testDatabase.insertUser(newUser);
+		newUser = new User("TestUserC");
+		testDatabase.insertUser(newUser);
+		
+		databaseUsers = testDatabase.getUsersSequential();
+		
+		assertEquals(databaseUsers.get(databaseUsers.size()-3).getUserName(), "TestUserA");
+		assertEquals(databaseUsers.get(databaseUsers.size()-2).getUserName(), "TestUserB");
+		assertEquals(databaseUsers.get(databaseUsers.size()-1).getUserName(), "TestUserC");
 		
 		System.out.println("Finished testUserInsert");
 	}
 	
-	public void testDuplicateTaskInsert()
-	{
-		System.out.println("\nStarting testDuplicateTaskInsert");
-		
-		setUpData();
-		User newUser = new User("SomeUser");
-		Task newTask = new Task("This is the same task being entered", newUser,
-				newUser);
-		
-		testDatabase.insertTask(newTask);
-		testDatabase.insertTask(newTask);
-		testDatabase.insertTask(newTask);
-		
-		assertTrue(testDatabase.getTasksSequential().size() != 3);
-		assertTrue(testDatabase.getTasksSequential().get(0).equals(newTask));
-		
-		System.out.println("Finished testDuplicateTaskInsert");
-	}
-	
-	public void testTasks()
+	public static void tasksTest()
 	{
 		System.out.println("\nStarting testTasks");
 		
-		setUpData();
-		
-		User newUser;
-		Task newTask;
-		Task editTask;
-		List<Task> databaseTasks;
+		boolean updated;
+		boolean deleted;
+		int size;
 		
 		newUser = new User("TestUserA");
 		
-		newTask = new Task("Finish assignment A", newUser, newUser);
-		testListTasks.add(newTask);
-		
-		newTask = new Task("Finish assignment B", newUser, newUser);
-		testListTasks.add(newTask);
-		
-		newTask = new Task("Finish assignment C", newUser, newUser);
-		testListTasks.add(newTask);
-		
-		for (Task t : testListTasks)
-		{
-			testDatabase.insertTask(t);
-		}
+		newTask1 = new Task("Finish assignment A", newUser, newUser);
+		testDatabase.insertTask(newTask1);
+		newTask2 = new Task("Finish assignment B", newUser, newUser);
+		testDatabase.insertTask(newTask2);
+		newTask3 = new Task("Finish assignment C", newUser, newUser);
+		testDatabase.insertTask(newTask3);
 		
 		databaseTasks = testDatabase.getTasksSequential();
 		
-		assertTrue(testListTasks.get(0).equals(databaseTasks.get(0)));
-		assertTrue(testListTasks.get(1).equals(databaseTasks.get(1)));
-		assertTrue(testListTasks.get(2).equals(databaseTasks.get(2)));
-		
-		assertTrue(testListTasks.equals(databaseTasks));
+		assertEquals(databaseTasks.get(databaseTasks.size()-3).getTitle(), newTask1.getTitle());
+		assertEquals(databaseTasks.get(databaseTasks.size()-2).getTitle(), newTask2.getTitle());
+		assertEquals(databaseTasks.get(databaseTasks.size()-1).getTitle(), newTask3.getTitle());
 		
 		// test updating tasks
-		editTask = testListTasks.get(1);
-		editTask.setTitle("I actually want to finish assignment D");
-		testDatabase.updateTask(editTask);
+		newTask1.setTitle("I actually want to finish assignment D");
+		updated = testDatabase.updateTask(newTask1);
+		assertTrue(updated);
 		
 		databaseTasks = testDatabase.getTasksSequential();
 		
 		// test if the task objects still remain the same
-		assertTrue(testListTasks.get(1).equals(editTask));
-		assertTrue(testListTasks.get(1).equals(databaseTasks.get(1)));
-		assertTrue(editTask.equals(databaseTasks.get(1)));
-		assertTrue(databaseTasks.get(1).getTitle()
-				.equals("I actually want to finish assignment D"));
+		assertEquals("I actually want to finish assignment D", databaseTasks
+				.get(databaseTasks.indexOf(newTask1)).getTitle());
+		
+		size = databaseTasks.size();
 		
 		// test deleting tasks
-		editTask = testListTasks.get(0);
-		testDatabase.deleteTask(editTask);
+		deleted = testDatabase.deleteTask(newTask1);
+		assertTrue(deleted);
 		
-		editTask = testListTasks.get(2);
-		testDatabase.deleteTask(editTask);
+		deleted = testDatabase.deleteTask(newTask3);
+		assertTrue(deleted);
 		
 		databaseTasks = testDatabase.getTasksSequential();
 		
-		assertTrue(databaseTasks.size() == 1);
-		assertTrue(databaseTasks.get(0).equals(testListTasks.get(1)));
-		assertTrue(databaseTasks.get(0).getTitle()
-				.equals("I actually want to finish assignment D"));
+		assertTrue(databaseTasks.size() == size-2);
+		assertEquals(databaseTasks.get(databaseTasks.size()-1).getTitle(), "Finish assignment B");
 		
-		editTask = databaseTasks.get(0);
-		testDatabase.deleteTask(editTask);
+		deleted = testDatabase.deleteTask(newTask2);
+		assertTrue(deleted);
 		
 		// test deleted all tasks
 		databaseTasks = testDatabase.getTasksSequential();
-		assertTrue(databaseTasks.size() == 0);
+		assertTrue(databaseTasks.size() == size-3);
 		
 		System.out.println("Finished testTasks");
 	}

@@ -1,0 +1,33 @@
+Package 			tts.presentation
+
+InvokeMethod		tts.application.Main			startUpStubDB
+
+Click				LogInWindow						btnCreateUser		
+
+Set					CreateUserWindow				txtUserName					JamesBond007
+Click				CreateUserWindow				btnCreate
+Test				MyMessageBox					messageText					"User has been created."
+
+Click				LogInWindow						btnCreateUser	
+
+Set					CreateUserWindow				txtUserName					JamesBond
+Click				CreateUserWindow				btnCreate
+Test				MyMessageBox					messageText					"Please create a unique username."
+Click				CreateUserWindow				btnCancel
+
+Click				LogInWindow						btnCreateUser	
+
+Set					CreateUserWindow				txtUserName					JamesBond!
+Click				CreateUserWindow				btnCreate
+Test				MyMessageBox					messageText					"Make sure your username only contains alphanumeric characters."
+Click				CreateUserWindow				btnCancel
+
+SelectComboByValue	LogInWindow						cboxUserDropDown			JamesBond
+Click				LogInWindow						btnLogIn
+Test				TaskMainViewWindow				lblLoggedInUser				"Logged In User: JamesBond"
+
+Click				TaskMainViewWindow				btnSignOut
+
+Click				LogInWindow						btnQuit
+
+InvokeMethod		tts.application.Main			shutDown

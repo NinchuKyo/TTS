@@ -11,6 +11,8 @@ public class TestUser extends TestCase
 	public TestUser(String arg0)
 	{
 		super(arg0);
+		
+		System.out.println("\nStarting test User");
 	}
 	
 	public void testNull()
@@ -56,19 +58,19 @@ public class TestUser extends TestCase
 		newUser = new User("JoeSmith");
 		userId1 = newUser.getUserID();
 		assertNotNull(newUser);
-		assertTrue(newUser.getUserName().equals("JoeSmith"));
+		assertEquals(newUser.getUserName(), "JoeSmith");
 		assertTrue(newUser.getUserID() == userId1);
 		
 		newUser = new User("JaneSmith");
 		userId2 = newUser.getUserID();
 		assertNotNull(newUser);
-		assertTrue(newUser.getUserName().equals("JaneSmith"));
+		assertEquals(newUser.getUserName(), "JaneSmith");
 		assertTrue(newUser.getUserID() == userId1 + 1);
 		
 		newUser = new User("JaneDoe");
 		userId3 = newUser.getUserID();
 		assertNotNull(newUser);
-		assertTrue(newUser.getUserName().equals("JaneDoe"));
+		assertEquals(newUser.getUserName(), "JaneDoe");
 		assertTrue(newUser.getUserID() == userId2 + 1);
 		
 		assertTrue(userId1 != userId2);
@@ -83,7 +85,7 @@ public class TestUser extends TestCase
 		System.out.println("\nStarting testUserId: users");
 		
 		User newUser = new User("Billy");
-		assertFalse(newUser.getUserID() < 1);
+		assertTrue(newUser.getUserID() > 0);
 		
 		User newOtherUser = new User("Bob");
 		assertTrue(newOtherUser.getUserID() == newUser.getUserID() + 1);
@@ -194,10 +196,10 @@ public class TestUser extends TestCase
 		System.out.println("\nStarting testUserComparison: users");
 		
 		User newUser1 = new User("NewUser1");
-		User newUser2 = new User("NewUser1");
+		User newUser2 = new User("NewUser2");
 		
 		// test username comparison
-		assertTrue(newUser1.equals(newUser2.getUserName()));
+		assertFalse(newUser1.getUserName().equals(newUser2.getUserName()));
 		assertFalse(newUser1.equals(newUser2));
 		assertFalse(newUser1.getUserID() == newUser2.getUserID());
 		

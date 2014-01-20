@@ -1,0 +1,96 @@
+package tts.presentation;
+
+import java.util.Calendar;
+import java.util.List;
+
+import org.eclipse.swt.widgets.MessageBox;
+
+import tts.business.AccessTasks;
+import tts.business.AccessUsers;
+import tts.business.DateFormat;
+import tts.objects.*;
+
+public class CreateTaskWindow extends TaskWindow
+{	
+	public CreateTaskWindow()
+	{
+		super("Create a task");
+	}
+	
+	public void setTextFieldValues()
+	{
+		List<User> theUsers = users.getUsers();
+		StaticWindowMethods.populateAssignedToDropDown(cboxAssignedTo, theUsers);
+		cboxAssignedTo.select(cboxAssignedTo.indexOf(AccessUsers.getLoggedInUser().getUserName()));
+		
+		if (StatusCode.values().length > 0)
+		{
+			StaticWindowMethods.populateStatusDropDown(cboxStatus);
+			cboxStatus.select(0);
+		}
+		
+		if (PriorityCode.values().length > 0)
+		{
+			StaticWindowMethods.populatePriorityDropDown(cboxPriority);
+			cboxPriority.select(0);
+		}
+	}
+
+	public void save()
+	{
+		AccessTasks tasks = new AccessTasks();
+		String title = txtTitle.getText();
+		User creator = null;
+		User assignedTo = null;
+		
+		for (User u : users.getUsers())
+		{
+			if (u.getUserName().equals(lblCreatedByField.getText()))
+			{
+				creator = u;
+			}
+			if (u.getUserName().equals(cboxAssignedTo.getText()))
+			{
+				assignedTo = u;
+			}
+		}
+		Task task;
+		try
+		{
+			task = new Task(title, creator, assignedTo);
+			task.setComments(txtComments.getText());
+			task.setDescription(txtDescription.getText());
+			task.setDueDate(FormatDate.convertDateTimeToCalendar(dueDate));
+			task.setUpdatedDate(Calendar.getInstance());
+			task.setPriority(PriorityCode.valueOf(cboxPriority.getText()));
+			task.setStatus(StatusCode.valueOf(cboxStatus.getText()));
+			try
+			{
+				double number;
+				number = Double.parseDouble(txtTimeEstimate.getText());
+				task.setTimeEstimate(number);
+				number = Double.parseDouble(txtTimeSpent.getText());
+				task.setTimeSpent(number);
+			}
+			catch (NumberFormatException nfe)
+			{
+				MessageBox error = new MessageBox(shlTaskTrackingSystem);
+				error.setMessage("Please enter a non-negative numeric value for Time Estimate and Time Spent");
+				error.open();
+			}
+			
+			tasks.getTasks();
+			tasks.addTask(task);
+			MessageBox success = new MessageBox(shlTaskTrackingSystem);
+			success.setMessage("Save succeeded");
+			success.open();
+			shlTaskTrackingSystem.close();
+		}
+		catch(IllegalArgumentException iae)
+		{
+			MessageBox error = new MessageBox(shlTaskTrackingSystem);
+			error.setMessage("Task Title has invalid characters.");
+			error.open();
+		}
+	}
+}

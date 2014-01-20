@@ -5,7 +5,7 @@ public class User
 	private String userName;
 	private int userID;
 	private static int nextUserID = 1;
-	private final static int MAX_NAME_LENGTH = 32;
+	public final static int MAX_NAME_LENGTH = 32;
 	
 	public User(String userName)
 	{
@@ -26,7 +26,7 @@ public class User
 				|| userName.length() > MAX_NAME_LENGTH)
 		{
 			throw new IllegalArgumentException(
-					"User name cannot be empty, null, exceed the max length or have illegal characters!");
+					"User name cannot be empty, null, longer than 32 characters or have illegal characters!");
 		}
 		
 		this.userName = userName;
@@ -37,13 +37,22 @@ public class User
 		return userID;
 	}
 	
-	private void setUserID(int userID)
+	public void setUserID(int userID)
 	{
 		if (userID < 1)
 		{
 			throw new IllegalArgumentException("User ID cannot be less than 1!");
 		}
 		this.userID = userID;
+	}
+	
+	public static void setNextUserID(int staticUserID)
+	{
+		if (staticUserID < 1)
+		{
+			throw new IllegalArgumentException("User ID cannot be less than 1!");
+		}
+		nextUserID = staticUserID;
 	}
 	
 	private boolean hasIllegalCharacters(String name)
@@ -64,7 +73,7 @@ public class User
 	
 	public boolean equals(User user)
 	{
-		return (this.userID == user.getUserID());
+		return (this.userID == user.getUserID() || this.userName.equals(user.getUserName()));
 	}
 	
 	public boolean equals(String userName)

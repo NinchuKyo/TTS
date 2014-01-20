@@ -1,0 +1,25 @@
+package tts.persistence;
+
+import java.util.List;
+
+import tts.objects.Task;
+import tts.objects.User;
+
+public interface DataAccess
+{	
+	public void open(String dbName);
+	
+	public void close();
+	
+	public List<User> getUsersSequential();
+	
+	public void insertUser(User newUser);
+	
+	public List<Task> getTasksSequential();
+	
+	public void insertTask(Task newTask);
+	
+	public void updateTask(Task currentTask);
+	
+	public boolean deleteTask(Task currentTask);
+}
