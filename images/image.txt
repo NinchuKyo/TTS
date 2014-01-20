@@ -1,0 +1,1 @@
+Insert image files used for the GUI (business layer) here.
